@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static java.lang.String.format;
 
-public class DemoqaTests {
+public class DemoqaTestsWithFaker {
     @BeforeAll
     static void setUp() {
         //Configuration.holdBrowserOpen = true;  чтобы браузер не закрывался
