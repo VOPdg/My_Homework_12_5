@@ -2,6 +2,7 @@ package guru.qa.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -21,21 +22,22 @@ public class DemoqaTestsWithFaker {
 
     @Test
     void fillformTest() {
-        String name = "Vera";
-        String lastName = "Podguk";
-        String email = "testForm@mailinator.com";
+        Faker faker = new Faker();
 
-        String expectedFullName = format("%s %s", name, lastName);
+        String firstName = faker.name().firstName(),
+                lastName = faker.name().lastName(),
+                email = faker.internet().emailAddress(),
+                // currentAddress = faker.rickAndMorty().quote();
+                expectedFullName = format("%s %s", firstName, lastName);
 
         open("/automation-practice-form");
         $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-        // Removing AD because it is overlapping Submit button
+
         Selenide.executeJavaScript("document.getElementById('fixedban').remove()");
-        // Removing Footer because it is overlapping Submit button
+
         Selenide.executeJavaScript("document.getElementsByTagName('footer')[0].remove()");
-        //executeJavaScript("$('footer').remove()"); спрятать футер
-        //executeJavaScript("$('#fixedban').remove()"); спрятатть рекламу
-        $("[id=firstName]").setValue(name);
+
+        $("[id=firstName]").setValue(firstName);
         $("[id=lastName]").setValue(lastName);
         $("[id=userEmail]").setValue(email);
         $("[for=gender-radio-2]").click();
@@ -44,14 +46,9 @@ public class DemoqaTestsWithFaker {
         $("[class=react-datepicker__month-select]").selectOption("August");
         $("[class=react-datepicker__year-select]").selectOption("1984");
         $("[aria-label='Choose Friday, August 31st, 1984']").click();
-        // $(".react-datepicker__day--030:not(.react-datepicker__day--outside-month)").click();
-        // нажать именно на конкретное 30 - второй варик
         $("#subjectsInput").setValue("Math").pressEnter();
         $("[for=hobbies-checkbox-1]").click();
-        //$("#hobbies-checkbox-1").parent().click();
         $("#uploadPicture").uploadFromClasspath("text.txt");
-        //$("#uploadPicture").uploadFile(new File("src/test/resources/text.txt"));
-        // второй варик
         $("#currentAddress").setValue("Minsk, 220117");
         $("#state").scrollTo().click();
         $("#state").$(byText("NCR")).click();
@@ -70,9 +67,6 @@ public class DemoqaTestsWithFaker {
                 text("Minsk, 220117"),
                 text("NCR Delhi"));
         $("#closeLargeModal").click();
-        //$(".table-responsive").shouldHave(text(name +" "+ lastname), text("testForm@mailinator.com"), text("Other"));
-        //$(".table-responsive").$(byText("Student Name"))
-        ////                .parent().shouldHave(text(name +" "+ lastname));
     }
 }
 
