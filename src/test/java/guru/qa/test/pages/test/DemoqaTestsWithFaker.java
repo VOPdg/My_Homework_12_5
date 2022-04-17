@@ -1,4 +1,4 @@
-package guru.qa.test;
+package guru.qa.test.pages.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
@@ -29,6 +29,7 @@ public class DemoqaTestsWithFaker {
                 email = faker.internet().emailAddress(),
                 // currentAddress = faker.rickAndMorty().quote();
                 expectedFullName = format("%s %s", firstName, lastName);
+        String telefon = faker.phoneNumber().phoneNumber();
 
         open("/automation-practice-form");
         $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
@@ -41,7 +42,7 @@ public class DemoqaTestsWithFaker {
         $("[id=lastName]").setValue(lastName);
         $("[id=userEmail]").setValue(email);
         $("[for=gender-radio-2]").click();
-        $("[id=userNumber]").setValue("1234543456");
+        $("[id=userNumber]").setValue(telefon);
         $("[id=dateOfBirthInput]").click();
         $("[class=react-datepicker__month-select]").selectOption("August");
         $("[class=react-datepicker__year-select]").selectOption("1984");
